@@ -26,13 +26,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         //Используем свое представление ввода логина пароля
         http.csrf().disable()     // Отключение защиты от межсайтовой подделки запросов
                 .authorizeRequests()                      // все запросы проходят через авторизацию
-                .antMatchers("/auth/login", "/error").permitAll()//Пускаем всех без аутетификации
+                .antMatchers("/auth/login", "/auth/registration", "/error").permitAll()//Пускаем всех без аутетификации
                 .anyRequest().authenticated()         //Для всем других запросов должен быть аутентифицирован
                 .and()                                //Переход к настройке страницы логина
                 .formLogin().loginPage("/auth/login") //Адрес страницы с логином
                 .loginProcessingUrl("/process_login") //Адрес куда пойдут данные с формы
                 .defaultSuccessUrl("/hello", true) //Куда переправить после удачной аутентификации
-                .failureUrl("/auth/login?error");  //Куда после неудачной
+                .failureUrl("/auth/login?error") //Куда после неудачной
+                .and()
+                .logout().logoutUrl("/logout") //При переходе на этот адрес стирает cookie и удаляет session (Выход из учетной записи)
+                .logoutSuccessUrl("/auth/login");// Куда переходит при успешном выходе
     }
 
     // Настраиваем аунтификацию
