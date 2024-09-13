@@ -7,7 +7,6 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import ru.alishev.springcourse.firstSecurity.services.PersonDetailsService;
 
@@ -25,8 +24,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         //Используем свое представление ввода логина пароля
-        http.csrf().disable()     // Отключение защиты от межсайтовой подделки запросов
-                .authorizeRequests()                      // все запросы проходят через авторизацию
+        http.authorizeRequests()                      // все запросы проходят через авторизацию
                 .antMatchers("/auth/login", "/auth/registration", "/error").permitAll()//Пускаем всех без аутетификации
                 .anyRequest().authenticated()         //Для всем других запросов должен быть аутентифицирован
                 .and()                                //Переход к настройке страницы логина
