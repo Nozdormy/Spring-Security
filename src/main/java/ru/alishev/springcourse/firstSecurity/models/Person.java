@@ -24,7 +24,8 @@ public class Person {
     @Column(name = "year_of_birth")
     private int yearOfBirth;
 
-    @Size(min = 5, max = 15, message = "Пароль должен быть от 5 до 15 символов")
+    //Пароль осле шифрование был больше 15 символом поэтому увеличил max
+    @Size(min = 5, max = 1500, message = "Пароль должен быть от 5 до 15 символов")
     @Column(name = "password")
     private String password;
 
