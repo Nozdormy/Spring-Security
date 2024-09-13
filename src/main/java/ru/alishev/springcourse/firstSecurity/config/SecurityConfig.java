@@ -3,6 +3,7 @@ package ru.alishev.springcourse.firstSecurity.config;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -11,6 +12,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import ru.alishev.springcourse.firstSecurity.services.PersonDetailsService;
 
 @EnableWebSecurity
+@EnableGlobalMethodSecurity(prePostEnabled = true) // Включает @PreAuthorize
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final PersonDetailsService personDetailsService;
@@ -25,7 +27,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         //Используем свое представление ввода логина пароля
         http.authorizeRequests()                      // все запросы проходят через авторизацию
-                .antMatchers("/admin").hasRole("ADMIN") // Страница только для админа
                 .antMatchers("/auth/login", "/auth/registration", "/error").permitAll()//Пускаем всех без аутетификации
                 .anyRequest().hasAnyRole("USER", "ADMIN") //Для всех других запросов эти роли
                 .and()                                //Переход к настройке страницы логина
