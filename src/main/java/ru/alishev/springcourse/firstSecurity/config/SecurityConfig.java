@@ -25,8 +25,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         //Используем свое представление ввода логина пароля
         http.authorizeRequests()                      // все запросы проходят через авторизацию
+                .antMatchers("/admin").hasRole("ADMIN") // Страница только для админа
                 .antMatchers("/auth/login", "/auth/registration", "/error").permitAll()//Пускаем всех без аутетификации
-                .anyRequest().authenticated()         //Для всем других запросов должен быть аутентифицирован
+                .anyRequest().hasAnyRole("USER", "ADMIN") //Для всех других запросов эти роли
                 .and()                                //Переход к настройке страницы логина
                 .formLogin().loginPage("/auth/login") //Адрес страницы с логином
                 .loginProcessingUrl("/process_login") //Адрес куда пойдут данные с формы

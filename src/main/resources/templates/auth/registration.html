@@ -17,7 +17,7 @@
     </div>
     <br/>
     <label for="password">Введите пароль</label>
-    <input type="text" th:field="*{password}" id="password">
+    <input type="password" th:field="*{password}" id="password">
     <div style="color: red" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Password error</div>
     <br/>
     <input type="submit" value="Sing up!">

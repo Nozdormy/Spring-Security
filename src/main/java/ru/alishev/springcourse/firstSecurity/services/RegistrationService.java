@@ -24,6 +24,8 @@ public class RegistrationService {
         String encodedPassword = passwordEncoder.encode(person.getPassword());
         //Записываем в БД зашифрованный пароль
         person.setPassword(encodedPassword);
+        //Всем прошедшим регистрацию назначается роль user и обязательно начинается с ROLE_
+        person.setRole("ROLE_USER");
 
         peopleRepository.save(person);
     }

@@ -1,10 +1,12 @@
 package ru.alishev.springcourse.firstSecurity.security;
 
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import ru.alishev.springcourse.firstSecurity.models.Person;
 
 import java.util.Collection;
+import java.util.Collections;
 
 // Обёртка типа класса DAO
 public class PersonDetails implements UserDetails {
@@ -20,10 +22,10 @@ public class PersonDetails implements UserDetails {
         return person;
     }
 
-    // Для авторизации возвращает список прав пользователя(на какие страницы может зайти)
+    // Для авторизации возвращает список ролей или прав пользователя(на какие страницы может зайти)
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        return Collections.singletonList(new SimpleGrantedAuthority(person.getRole()));
     }
 
     @Override
